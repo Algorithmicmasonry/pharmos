@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 };
 import dynamic from "next/dynamic";
 import { PHProvider } from "@/components/posthog-provider";
+import { Suspense } from "react";
 
 const PostHogPageView = dynamic(() => import("@/components/PostHogPageView"));
 export default function RootLayout({
@@ -37,7 +38,7 @@ export default function RootLayout({
             <Providers>
               <Toaster position="top-center" reverseOrder={false} />
               <PostHogPageView />
-              {children}
+              <Suspense>{children}</Suspense>
             </Providers>
           </ThemeProvider>
         </PHProvider>
