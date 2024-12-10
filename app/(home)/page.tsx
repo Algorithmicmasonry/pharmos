@@ -20,36 +20,13 @@ import { useSession } from "next-auth/react";
 import { CustomerReviews } from "@/components/frontend/CustomerReviews";
 import Showcase from "@/components/frontend/showcase";
 import { getKitUsers } from "@/actions/users";
+import HeroSection from "@/components/frontend/hero-section";
+import TabbedFeatures from "@/components/frontend/tabbed-features";
 export default async function Home() {
   const count = (await getKitUsers()) ?? 0;
   return (
     <main className="min-h-screen">
-      <div className="mx-auto max-w-4xl py-16 ">
-        <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-          <Announcement title="Introducing Component Pages" href="/pages" />
-        </div>
-        <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            Build it over the weekend and launch on Monday.
-          </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600 mb-4">
-            This Next Js Boilerplate is a comprehensive and modern starting
-            point, packed with all the features you need to quickly build your
-            SaaS, AI tool, or any web app, helping you make your first earnings
-            online faster.
-          </p>
-          <CustomLinkButton title="Go to Dashboard" href="/dashboard" />
-          <div className="pt-8 pb-4 flex items-center  justify-center gap-8">
-            <div className="">
-              <AnimatedAvatars />
-            </div>
-            <div className="">
-              <StarRating count={5} />
-              <p className="dark:text-slate-900">{count} developers use it.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <HeroSection />
       <div className="mx-auto max-w-6xl py-16">
         <div className="">
           <ComparisonFeatures />
@@ -58,7 +35,7 @@ export default async function Home() {
           <div className="relative rounded-lg overflow-hidden">
             <BorderBeam />
             <Image
-              src="/dashboard.png"
+              src="/images/dash-2.webp"
               alt="This is the dashbaord Image"
               width={1775}
               height={1109}
@@ -66,6 +43,7 @@ export default async function Home() {
             />
           </div>
         </div>
+        <TabbedFeatures />
         <div className="py-16">
           <CustomerReviews />
           {/* <Testimonials /> */}

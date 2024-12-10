@@ -18,7 +18,7 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import { RiFileExcel2Line } from "react-icons/ri";
-import { SiMicrosoftexcel } from "react-icons/si";
+// import { SiMicrosoftexcel } from "react-icons/si";
 import Select from "react-tailwindcss-select";
 import {
   Options,
@@ -39,6 +39,7 @@ import { generateSlug } from "@/lib/generateSlug";
 import { createBulkCategories } from "@/actions/categories";
 import toast from "react-hot-toast";
 import exportDataToExcel from "@/lib/exportDataToExcel";
+import { FaFileExcel } from "react-icons/fa";
 
 type TableHeaderProps = {
   title: string;
@@ -181,7 +182,7 @@ export default function TableHeader({
             variant="outline"
             className="h-8 gap-1"
           >
-            <SiMicrosoftexcel className="h-3.5 w-3.5" />
+            <FaFileExcel className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
               Export
             </span>

@@ -1,144 +1,339 @@
 "use client";
-import React from "react";
-import { useState } from "react";
-import { Dialog, DialogPanel } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
+import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  DollarSign,
+  Bell,
+  Menu,
+  Users,
+  GraduationCap,
+  MessageSquare,
+  ClipboardList,
+  Bus,
+  BarChart2,
+  BookOpen,
+  CalendarDays,
+  FileText,
+  Shield,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
+
+import Logo from "../global/Logo";
+import PromoBanner from "./promo-banner";
 import { Session } from "next-auth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getInitials } from "@/lib/generateInitials";
-// import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Logo from "@/components/global/Logo";
-import AuthenticatedAvatar from "@/components/global/AuthenticatedAvatar";
+
+const features = [
+  {
+    icon: Users,
+    title: "Student Management",
+    description:
+      "Comprehensive student information system for managing enrollments, profiles, and academic records with ease",
+    href: "/features/student-management",
+  },
+  {
+    icon: GraduationCap,
+    title: "Academic Management",
+    description:
+      "Streamline curriculum planning, examinations, grading, and report card generation in one unified system",
+    href: "/features/academic-management",
+  },
+  {
+    icon: MessageSquare,
+    title: "Communication Hub",
+    description:
+      "Integrated messaging system with multi-channel notifications for seamless school-wide communication",
+    href: "/features/communication",
+  },
+  {
+    icon: DollarSign,
+    title: "Financial Management",
+    description:
+      "Complete fee management system with online payments, invoicing, and comprehensive financial reporting",
+    href: "/features/finance",
+  },
+  {
+    icon: ClipboardList,
+    title: "Staff Management",
+    description:
+      "Efficient tools for managing staff records, attendance, performance evaluation, and payroll processing",
+    href: "/features/staff-management",
+  },
+  {
+    icon: Bus,
+    title: "Transport Management",
+    description:
+      "Real-time transport tracking, route management, and automated notifications for safe student transportation",
+    href: "/features/transport",
+  },
+  {
+    icon: BarChart2,
+    title: "Analytics & Reports",
+    description:
+      "Powerful analytics tools for data-driven decisions with customizable reporting and insights",
+    href: "/features/analytics",
+  },
+  {
+    icon: BookOpen,
+    title: "Resource Management",
+    description:
+      "Digital library system, inventory tracking, and facility scheduling in one integrated platform",
+    href: "/features/resources",
+  },
+  {
+    icon: CalendarDays,
+    title: "Attendance System",
+    description:
+      "Automated attendance tracking for students and staff with instant notification capabilities",
+    href: "/features/attendance",
+  },
+  {
+    icon: FileText,
+    title: "Examination Portal",
+    description:
+      "Complete examination management system from scheduling to result publication with secure access",
+    href: "/features/examinations",
+  },
+  {
+    icon: Bell,
+    title: "Notice Board",
+    description:
+      "Digital notice board for announcements, events, and important updates with targeted distribution",
+    href: "/features/announcements",
+  },
+  {
+    icon: Shield,
+    title: "Security & Access",
+    description:
+      "Role-based access control with data encryption and secure backups for complete peace of mind",
+    href: "/features/security",
+  },
+];
 
 export default function SiteHeader({ session }: { session: Session | null }) {
-  const navigation = [
-    { name: "Products", href: "/products" },
-    { name: "Solutions", href: "/solutions" },
-    { name: "Resources", href: "/resources" },
-    { name: "Docs", href: "/docs" },
-    { name: "Pricing", href: "/pricing" },
-  ];
-  const router = useRouter();
-  async function handleLogout() {
-    try {
-      await signOut();
-      router.push("/login");
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [showFeatures, setShowFeatures] = React.useState(false);
+
   return (
-    <header className="sticky inset-x-0 top-8 lg:top-5 z-50">
-      <nav
-        aria-label="Global"
-        className="flex items-center justify-between p-6 lg:px-8"
-      >
-        <div className="flex lg:flex-1">
-          <Logo title="Next Starter Pro" href="/" />
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
+      <PromoBanner />
+      <div className="container max-w-7xl mx-auto flex h-14 items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <Logo />
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link href="/" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                    Home
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Features</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="w-[800px] p-4">
+                    <div className="flex items-center justify-between mb-4 pb-2 border-b">
+                      <h4 className="text-lg font-medium">Features</h4>
+                      <Link
+                        href="/features"
+                        className="text-sm text-blue-500 hover:underline"
+                      >
+                        View all
+                      </Link>
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-3 ">
+                      {features.map((feature, index) => (
+                        <Link
+                          key={index}
+                          href={`/feature/${feature.title
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")}`}
+                          className="block group"
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className="p-2 bg-muted rounded-md group-hover:bg-muted/80">
+                              <feature.icon className="h-6 w-6 text-blue-500" />
+                            </div>
+                            <div>
+                              <h5 className="font-medium mb-1 group-hover:text-blue-500">
+                                {feature.title}
+                              </h5>
+                              <p className="text-sm text-muted-foreground line-clamp-2">
+                                {feature.description}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                    <div className="mt-6 pt-4 border-t">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-medium mb-1">Get started</h4>
+                          <p className="text-sm text-muted-foreground">
+                            Their food sources have decreased, and their numbers
+                          </p>
+                        </div>
+                        <Button asChild variant="secondary">
+                          <Link href="/contact-us">Get started</Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link href="/#pricing" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                    Pricing
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link href="/how-it-works" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                    How it Works
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="h-6 w-6" />
-          </button>
-        </div>
-        <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              {item.name}
+        {session ? (
+          <Button asChild variant={"ghost"}>
+            <Link href="/dashboard">
+              <Avatar>
+                <AvatarImage
+                  src={session?.user?.image ?? ""}
+                  alt={session?.user?.name ?? ""}
+                />
+                <AvatarFallback>
+                  {getInitials(session?.user?.name)}
+                </AvatarFallback>
+              </Avatar>
+              <span className="ml-3">Dashboard</span>
             </Link>
-          ))}
-        </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-2">
-          <ModeToggle />
-          {session ? (
-            <AuthenticatedAvatar session={session} />
-          ) : (
-            <Button asChild variant={"outline"}>
-              <Link href="/login">Log in</Link>
+          </Button>
+        ) : (
+          <div className="hidden md:flex items-center space-x-4">
+            <Button asChild variant="ghost">
+              <Link href={"/login"}>Log in</Link>
             </Button>
-          )}
-        </div>
-      </nav>
-      <Dialog
-        open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
-        className="lg:hidden"
-      >
-        <div className="fixed inset-0 z-50" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <Logo href="/" labelShown={true} title="Next Starter Pro" />
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon aria-hidden="true" className="h-6 w-6" />
-            </button>
+            <Button>
+              <Link href="/register">Signup</Link>
+            </Button>
           </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-              <div className="py-6">
-                {session ? (
-                  <Button asChild variant={"ghost"}>
-                    <Link href="/dashboard">
-                      <Avatar>
-                        <AvatarImage
-                          src={session?.user?.image ?? ""}
-                          alt={session?.user?.name ?? ""}
-                        />
-                        <AvatarFallback>
-                          {getInitials(session?.user?.name)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <span className="ml-3">Dashboard</span>
+        )}
+
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="ghost" size="icon">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-full p-0">
+            <SheetHeader className="border-b p-4">
+              <SheetTitle className="text-left">Navigation</SheetTitle>
+            </SheetHeader>
+            <div className="flex flex-col py-4">
+              <Link
+                href="/"
+                className="px-4 py-2 text-lg font-medium hover:bg-accent"
+                onClick={() => setOpen(false)}
+              >
+                Home
+              </Link>
+              <button
+                className="flex items-center justify-between px-4 py-2 text-lg font-medium hover:bg-accent text-left"
+                onClick={() => setShowFeatures(!showFeatures)}
+              >
+                Features
+                <ChevronDown
+                  className={cn(
+                    "h-5 w-5 transition-transform",
+                    showFeatures && "rotate-180"
+                  )}
+                />
+              </button>
+              {showFeatures && (
+                <div className="px-4 py-2 space-y-4">
+                  {features.map((feature, index) => (
+                    <Link
+                      key={index}
+                      href={`/feature/${feature.title
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                      className="flex items-start gap-4 py-2"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="p-2 bg-muted rounded-md">
+                        <feature.icon className="h-6 w-6 text-blue-500" />
+                      </div>
+                      <div>
+                        <h5 className="font-medium mb-1">{feature.title}</h5>
+                        <p className="text-sm text-muted-foreground">
+                          {feature.description}
+                        </p>
+                      </div>
                     </Link>
-                  </Button>
-                ) : (
-                  <Button asChild variant={"outline"}>
-                    <Link href="/login">Log in</Link>
-                  </Button>
-                )}
+                  ))}
+                </div>
+              )}
+              <Link
+                href="/#pricing"
+                className="px-4 py-2 text-lg font-medium hover:bg-accent"
+                onClick={() => setOpen(false)}
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/how-it-works"
+                className="px-4 py-2 text-lg font-medium hover:bg-accent"
+                onClick={() => setOpen(false)}
+              >
+                How it works
+              </Link>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-background">
+              <div className="grid gap-2">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setOpen(false)}
+                >
+                  Log in
+                </Button>
+                <Button className="w-full" onClick={() => setOpen(false)}>
+                  Sign up
+                </Button>
               </div>
             </div>
-          </div>
-        </DialogPanel>
-      </Dialog>
+          </SheetContent>
+        </Sheet>
+      </div>
     </header>
   );
 }

@@ -1,25 +1,40 @@
-import { AirVent } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Code, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-type LogoProps = {
-  title?: string;
-  href: string;
-  labelShown?: boolean;
-};
-export default function Logo({ title, href, labelShown = true }: LogoProps) {
-  return (
-    <Link
-      href={href}
-      className="-m-1.5 p-1.5 flex items-center space-x-2 dark:text-slate-900"
-    >
-      <span className="sr-only">{title}</span>
-      {/* <img
-        alt=""
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-        className="h-8 w-auto"
-      /> */}
-      <AirVent className="h-8 w-8 text-indigo-600" />
-      <span className="font-bold">{title}</span>
-    </Link>
-  );
+
+export default function Logo({
+  variant = "light",
+  size = "md",
+}: {
+  variant?: "dark" | "light";
+  size?: "sm" | "md" | "lg";
+}) {
+  if (variant === "light") {
+    return (
+      <Link href={"/"} className="flex items-center space-x-2">
+        <div className="bg-blue-500 rounded-full p-1">
+          <span className="font-bold text-xl text-white">
+            <Code className={cn("w-6 h-6", size === "lg" && "w-10 h-10")} />
+          </span>
+        </div>
+        <span className={cn(" font-bold text-xl", size === "lg" && "text-4xl")}>
+          Next Starter <span className="text-blue-500">Pro</span>
+        </span>
+      </Link>
+    );
+  } else {
+    return (
+      <Link href={"/"} className="flex items-center space-x-2">
+        <div className="bg-white rounded-full p-1">
+          <span className="text-blue-800 font-bold text-xl">
+            <GraduationCap />
+          </span>
+        </div>
+        <span className="font-bold text-xl">
+          School <span className="text-blue-100">Pro</span>
+        </span>
+      </Link>
+    );
+  }
 }
