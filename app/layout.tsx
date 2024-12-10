@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 import dynamic from "next/dynamic";
 import { PHProvider } from "@/components/posthog-provider";
 import { Suspense } from "react";
+import SimpleFallback from "@/components/SimpleFallback";
 
 const PostHogPageView = dynamic(() => import("@/components/PostHogPageView"));
 export default function RootLayout({
@@ -26,22 +27,24 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <PHProvider>
-          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+        <Suspense fallback={<SimpleFallback />}>
+          <PHProvider>
+            <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
 
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Providers>
-              <Toaster position="top-center" reverseOrder={false} />
-              <PostHogPageView />
-              <Suspense>{children}</Suspense>
-            </Providers>
-          </ThemeProvider>
-        </PHProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Providers>
+                <Toaster position="top-center" reverseOrder={false} />
+                <PostHogPageView />
+                {children}
+              </Providers>
+            </ThemeProvider>
+          </PHProvider>
+        </Suspense>
       </body>
     </html>
   );
