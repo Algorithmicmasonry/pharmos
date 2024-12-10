@@ -3,10 +3,11 @@ import CategoryForm from "@/components/Forms/CategoryForm";
 import React from "react";
 
 export default async function page({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const id = (await params).id;
   const category = await getCategoryById(id);
   return (
     <div className="p-8">
