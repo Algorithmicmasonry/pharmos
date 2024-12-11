@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import {
   componentPages,
   totalComponents,
@@ -59,6 +59,30 @@ export default function ComponentListPage() {
                   </li>
                 );
               })}
+            <li>
+              <Link
+                href="https://reactui-templates.vercel.app/simple-ui"
+                className="block hover:bg-gray-50 transition duration-150 ease-in-out"
+              >
+                <div className="px-4 py-4 sm:px-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <p className="text-lg font-medium text-blue-600 truncate">
+                        Check Advanced Ones (at Simple UI)
+                      </p>
+                      <div className="ml-2 flex-shrink-0 flex">
+                        <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          10+
+                        </p>
+                      </div>
+                    </div>
+                    <div className="ml-2 flex-shrink-0 flex">
+                      <ExternalLink className="h-5 w-5 text-gray-400" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

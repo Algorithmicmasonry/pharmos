@@ -177,11 +177,17 @@ export default function SiteHeader({ session }: { session: Session | null }) {
                         <div>
                           <h4 className="font-medium mb-1">Get started</h4>
                           <p className="text-sm text-muted-foreground">
-                            Their food sources have decreased, and their numbers
+                            Am really excited for all these features out of the
+                            box
                           </p>
                         </div>
                         <Button asChild variant="secondary">
-                          <Link href="/contact-us">Get started</Link>
+                          <Link
+                            target="_blank"
+                            href="https://coding-school-typescript.vercel.app/give-away"
+                          >
+                            Get started
+                          </Link>
                         </Button>
                       </div>
                     </div>
