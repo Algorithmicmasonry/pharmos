@@ -1,6 +1,22 @@
+# Next.js TypeScript Starter Kit
+
+Welcome to the Next.js TypeScript Starter Kit! This starter kit is a boilerplate designed to help developers quickly build production-ready applications with Next.js, TypeScript, and essential integrations like authentication, database, and analytics.
+
+## Features
+
+- TypeScript for type safety
+- NextAuth.js for authentication with GitHub and Google providers
+- UploadThing for file uploads
+- PostHog for analytics
+- MongoDB database integration
+
+Follow the guide below to set up your environment and get started.
+
+---
+
 # Environment Variables Setup Guide
 
-This guide will help you set up the necessary environment variables for this Next.js project. Follow these steps to obtain and configure each required variable.
+This guide will help you set up the necessary environment variables for this project. Follow these steps to obtain and configure each required variable.
 
 ## Database URL (MongoDB)
 
@@ -50,5 +66,18 @@ This guide will help you set up the necessary environment variables for this Nex
 6. Add authorized redirect URIs: `{NEXTAUTH_URL}/api/auth/callback/google`
 7. After creating, you'll get the `Client ID` and `Client Secret`.
 8. Set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` with these values.
+
+## PostHog Analytics
+
+1. Go to [PostHog](https://posthog.com/) and create an account.
+2. Set up a new project in the PostHog dashboard.
+3. Find the API host (typically `https://app.posthog.com`) and project API key in the project settings.
+4. Set the following environment variables in your `.env` file:
+   ```
+   NEXT_PUBLIC_POSTHOG_HOST="<your-posthog-host>"
+   NEXT_PUBLIC_POSTHOG_KEY="<your-posthog-key>"
+   ```
+
+---
 
 Remember to never commit your `.env` file to version control. Add it to your `.gitignore` file to prevent accidental exposure of sensitive information.
