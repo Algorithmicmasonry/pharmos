@@ -32,6 +32,12 @@ import {
   CalendarDays,
   FileText,
   Shield,
+  Layout,
+  CloudUpload,
+  Edit3,
+  Database,
+  BarChart,
+  Lock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
@@ -45,87 +51,66 @@ import { getInitials } from "@/lib/generateInitials";
 const features = [
   {
     icon: Users,
-    title: "Student Management",
+    title: "Advanced Authentication",
     description:
-      "Comprehensive student information system for managing enrollments, profiles, and academic records with ease",
-    href: "/features/student-management",
+      "Secure and flexible authentication system with role-based access control and multi-provider support.",
+    href: "/features/authentication",
   },
   {
-    icon: GraduationCap,
-    title: "Academic Management",
+    icon: Layout,
+    title: "Dynamic Dashboard",
     description:
-      "Streamline curriculum planning, examinations, grading, and report card generation in one unified system",
-    href: "/features/academic-management",
-  },
-  {
-    icon: MessageSquare,
-    title: "Communication Hub",
-    description:
-      "Integrated messaging system with multi-channel notifications for seamless school-wide communication",
-    href: "/features/communication",
-  },
-  {
-    icon: DollarSign,
-    title: "Financial Management",
-    description:
-      "Complete fee management system with online payments, invoicing, and comprehensive financial reporting",
-    href: "/features/finance",
-  },
-  {
-    icon: ClipboardList,
-    title: "Staff Management",
-    description:
-      "Efficient tools for managing staff records, attendance, performance evaluation, and payroll processing",
-    href: "/features/staff-management",
-  },
-  {
-    icon: Bus,
-    title: "Transport Management",
-    description:
-      "Real-time transport tracking, route management, and automated notifications for safe student transportation",
-    href: "/features/transport",
-  },
-  {
-    icon: BarChart2,
-    title: "Analytics & Reports",
-    description:
-      "Powerful analytics tools for data-driven decisions with customizable reporting and insights",
-    href: "/features/analytics",
-  },
-  {
-    icon: BookOpen,
-    title: "Resource Management",
-    description:
-      "Digital library system, inventory tracking, and facility scheduling in one integrated platform",
-    href: "/features/resources",
-  },
-  {
-    icon: CalendarDays,
-    title: "Attendance System",
-    description:
-      "Automated attendance tracking for students and staff with instant notification capabilities",
-    href: "/features/attendance",
+      "Beautifully designed, responsive dashboard with data visualization and management tools.",
+    href: "/features/dashboard",
   },
   {
     icon: FileText,
-    title: "Examination Portal",
+    title: "Reusable Form Components",
     description:
-      "Complete examination management system from scheduling to result publication with secure access",
-    href: "/features/examinations",
+      "Streamline your workflows with reusable and customizable form components.",
+    href: "/features/forms",
   },
   {
-    icon: Bell,
-    title: "Notice Board",
+    icon: BarChart2,
+    title: "Advanced Data Tables",
     description:
-      "Digital notice board for announcements, events, and important updates with targeted distribution",
-    href: "/features/announcements",
+      "Manage and display data effortlessly with customizable and powerful data tables.",
+    href: "/features/data-tables",
   },
   {
-    icon: Shield,
-    title: "Security & Access",
+    icon: CloudUpload,
+    title: "Image Upload",
     description:
-      "Role-based access control with data encryption and secure backups for complete peace of mind",
-    href: "/features/security",
+      "Effortless image uploads powered by UploadThing, supporting both single and multiple file uploads.",
+    href: "/features/image-upload",
+  },
+  {
+    icon: Edit3,
+    title: "Rich Text Editor",
+    description:
+      "Seamlessly create and edit rich content using an integrated Quill editor.",
+    href: "/features/rich-text-editor",
+  },
+  {
+    icon: Lock,
+    title: "Secure Authentication",
+    description:
+      "Role-based authentication system with customizable access control.",
+    href: "/features/secure-authentication",
+  },
+  {
+    icon: Database,
+    title: "Prisma ORM",
+    description:
+      "Leverage Prisma ORM for robust and scalable database management in TypeScript.",
+    href: "/features/prisma-orm",
+  },
+  {
+    icon: BarChart,
+    title: "Analytics Integration",
+    description:
+      "Track performance with integrated analytics from PostHog and Vercel for actionable insights.",
+    href: "/features/analytics",
   },
 ];
 

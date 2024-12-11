@@ -1,6 +1,18 @@
 "use client";
 
-import { BarChart2, DollarSign, GraduationCap, Users } from "lucide-react";
+import {
+  BarChart,
+  BarChart2,
+  CloudUpload,
+  Database,
+  DollarSign,
+  Edit3,
+  FileText,
+  GraduationCap,
+  Layout,
+  Lock,
+  Users,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -30,7 +42,7 @@ const features = [
     image: "/images/auth.webp",
   },
   {
-    icon: GraduationCap,
+    icon: Layout,
     tab: "Dashboard",
     title: "Dynamic Dashboard",
     description:
@@ -49,7 +61,7 @@ const features = [
     image: "/images/dash.webp",
   },
   {
-    icon: DollarSign,
+    icon: FileText,
     tab: "Forms",
     title: "Reusable Form Components",
     description:
@@ -84,7 +96,102 @@ const features = [
       "Role-based data access and visibility",
       "Seamless integration with Prisma and backend APIs",
     ],
-    image: "/images/dash.webp",
+    image: "/images/dash-2.webp",
+  },
+  {
+    icon: CloudUpload,
+    tab: "Image Upload",
+    title: "Image Upload",
+    description:
+      "Effortless image uploads powered by UploadThing, supporting both single and multiple file uploads.",
+    href: "/features/image-upload",
+    subFeatures: [
+      "Single image upload for profile or cover images",
+      "Multiple image uploads for galleries or portfolios",
+      "Drag-and-drop upload interface",
+      "Validation for file types and sizes",
+      "Previews of uploaded images",
+      "Seamless integration with backend storage solutions",
+      "Error handling for upload failures",
+      "Optimized for fast performance and secure uploads",
+    ],
+    image: "/images/dash-2.webp",
+  },
+  {
+    icon: Edit3,
+    tab: "Rich Text",
+    title: "Rich Text Editor",
+    description:
+      "Seamlessly create and edit rich content using an integrated Quill editor.",
+    href: "/features/rich-text-editor",
+    subFeatures: [
+      "Support for text formatting (bold, italic, underline)",
+      "Image and media embedding",
+      "Customizable toolbar options",
+      "Support for markdown and HTML content",
+      "Error handling for invalid input",
+      "Dynamic content rendering with previews",
+      "Integration with backend for content storage",
+      "Support for multiple languages",
+    ],
+    image: "/images/dash-2.webp",
+  },
+  {
+    icon: Lock,
+    tab: "Security",
+    title: "Secure Authentication",
+    description:
+      "Role-based authentication system with customizable access control.",
+    href: "/features/secure-authentication",
+    subFeatures: [
+      "Password encryption using secure algorithms",
+      "Token-based authentication with expiry settings",
+      "Multi-factor authentication support",
+      "Granular role-based access permissions",
+      "Session management for active users",
+      "Audit trails and logging for sensitive actions",
+      "IP-based access restrictions",
+      "Secure API token generation for developers",
+    ],
+    image: "/images/auth.webp",
+  },
+  {
+    icon: Database,
+    tab: "Database",
+    title: "Prisma ORM",
+    description:
+      "Leverage Prisma ORM for robust and scalable database management in TypeScript.",
+    href: "/features/prisma-orm",
+    subFeatures: [
+      "Schema-driven database design",
+      "Support for relational and non-relational databases",
+      "Migrations and seeding out-of-the-box",
+      "Type-safe database queries",
+      "GraphQL and REST API integration",
+      "Support for nested queries and relations",
+      "Performance optimization tools",
+      "Developer-friendly syntax and tooling",
+    ],
+    image: "/images/auth.webp",
+  },
+  {
+    icon: BarChart,
+    tab: "Analytics",
+    title: "Analytics Integration",
+    description:
+      "Track performance with integrated analytics from PostHog and Vercel for actionable insights.",
+    href: "/features/analytics",
+    subFeatures: [
+      "Real-time user behavior tracking",
+      "Event-based analytics for user actions",
+      "Custom dashboards for key metrics",
+      "Support for funnel analysis and segmentation",
+      "Error and performance tracking",
+      "Integration with other analytics platforms",
+      "Role-specific analytics access",
+      "Data export for further analysis",
+    ],
+    image: "/images/analytics.webp",
   },
 ];
 
@@ -99,7 +206,7 @@ export default function TabbedFeatures() {
         />
       </div>
       <Tabs defaultValue={features[0].tab.toLowerCase()} className="space-y-8">
-        <TabsList className="inline-flex h-auto w-full justify-start gap-4 rounded-none border-b bg-transparent p-0">
+        <TabsList className="inline-flex h-auto w-full justify-start gap-4 rounded-none border-b bg-transparent p-0 flex-wrap">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
