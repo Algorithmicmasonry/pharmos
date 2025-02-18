@@ -8,7 +8,8 @@ import { AnimatedAvatars } from "../global/avatar-circles";
 import { getKitUsers } from "@/actions/users";
 
 export default async function HeroSection() {
-  const count = (await getKitUsers()) ?? 0;
+  const data = await getKitUsers();
+  const count = data ? data.fkUsers : 0;
   return (
     <section className="relative min-h-[100vh] w-full flex items-center justify-center bg-gradient-to-br from-background to-muted">
       <div className="container max-w-6xl mx-auto px-4 md:px-6 flex flex-col items-center text-center space-y-8">

@@ -7,23 +7,18 @@ import Iframe from "react-iframe";
 import StarRating from "@/components/global/StarRating";
 import HowItWorks from "@/components/HowItWorks";
 import { BorderBeam } from "@/components/magicui/border-beam";
-import { ModeToggle } from "@/components/mode-toggle";
-import { Star } from "lucide-react";
+
 import Image from "next/image";
-import { FaStar } from "react-icons/fa";
+
 import SectionHeading from "@/components/global/SectionHeading";
 import Pricing from "@/components/Pricing";
 import { FAQ } from "@/components/FAQ";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/config/auth";
-import { useSession } from "next-auth/react";
+
 import { CustomerReviews } from "@/components/frontend/CustomerReviews";
 import Showcase from "@/components/frontend/showcase";
-import { getKitUsers } from "@/actions/users";
 import HeroSection from "@/components/frontend/hero-section";
 import TabbedFeatures from "@/components/frontend/tabbed-features";
 export default async function Home() {
-  const count = (await getKitUsers()) ?? 0;
   return (
     <main className="min-h-screen">
       <HeroSection />

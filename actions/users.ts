@@ -49,7 +49,7 @@ export async function createUser(data: UserProps) {
     };
   }
 }
-
+export type KitResponseData = { fkUsers: number; hsaUsers: number };
 export async function getKitUsers() {
   const endpoint = process.env.KIT_API_ENDPOINT as string;
   try {
@@ -57,11 +57,10 @@ export async function getKitUsers() {
       next: { revalidate: 0 }, // Revalidate immediately
     });
     const response = await res.json();
-    const count = response.count;
-    console.log(count);
-    return count;
+    const data = response.data;
+    return data as KitResponseData;
   } catch (error) {
     console.error("Error fetching the count:", error);
-    return 0;
+    return null;
   }
 }
