@@ -43,7 +43,6 @@ import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 
 import Logo from "../global/Logo";
-import PromoBanner from "./promo-banner";
 import { Session } from "next-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getInitials } from "@/lib/generateInitials";
@@ -120,7 +119,6 @@ export default function SiteHeader({ session }: { session: Session | null }) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
-      <PromoBanner />
       <div className="container max-w-7xl mx-auto flex h-14 items-center justify-between">
         <div className="flex items-center space-x-4">
           <Logo />
