@@ -1,7 +1,5 @@
 import { AuthOptions, NextAuthOptions } from "next-auth";
-// import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import type { Adapter } from "next-auth/adapters";
@@ -29,7 +27,7 @@ export const authOptions: NextAuthOptions = {
           phone: "",
           image: profile.avatar_url,
           email: profile.email,
-          role: "USER",
+          role: "OWNER",
         };
       },
       clientId: process.env.GITHUB_CLIENT_ID || "",
@@ -45,7 +43,7 @@ export const authOptions: NextAuthOptions = {
           phone: "",
           image: profile.picture,
           email: profile.email,
-          role: "USER",
+          role: "OWNER",
         };
       },
       clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -99,7 +97,7 @@ export const authOptions: NextAuthOptions = {
             name: existingUser.name,
             firstName: existingUser.firstName,
             lastName: existingUser.lastName,
-            phone: existingUser.phone,
+            phone: existingUser.phone ?? "",
             image: existingUser.image,
             email: existingUser.email,
             role: existingUser.role,

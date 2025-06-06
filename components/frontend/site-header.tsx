@@ -38,6 +38,11 @@ import {
   Database,
   BarChart,
   Lock,
+  Store,
+  ScanBarcode,
+  UsersRound,
+  WalletMinimal,
+  MapPinPlus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
@@ -49,25 +54,28 @@ import { getInitials } from "@/lib/generateInitials";
 
 const features = [
   {
-    icon: Users,
-    title: "Advanced Authentication",
+    icon: Store,
+    title: "Inventory Management",
     description:
-      "Secure and flexible authentication system with role-based access control and multi-provider support.",
-    href: "/features/authentication",
+      "Easily manage your inventory of products in your pharmacy with real time data that alerts you when stocks are low and shows your winning products",
+  },
+  {
+    icon: ScanBarcode ,
+    title: "Point of Sale",
+    description:
+      "POS system for managing sales and checkouts.",
   },
   {
     icon: Layout,
-    title: "Dynamic Dashboard",
+    title: "Ecommerce Website",
     description:
-      "Beautifully designed, responsive dashboard with data visualization and management tools.",
+      "Beautifully designed, responsive ecommerce platform integrated with your inventory to drive online sales.",
     href: "/features/dashboard",
   },
   {
-    icon: FileText,
-    title: "Reusable Form Components",
-    description:
-      "Streamline your workflows with reusable and customizable form components.",
-    href: "/features/forms",
+    icon: WalletMinimal,
+    title: "Accounting & Book-keeping",
+    description:"Keep track of the finances of your pharmacy, how much goes in and comes out",
   },
   {
     icon: BarChart2,
@@ -76,40 +84,37 @@ const features = [
       "Manage and display data effortlessly with customizable and powerful data tables.",
     href: "/features/data-tables",
   },
-  {
-    icon: CloudUpload,
-    title: "Image Upload",
-    description:
-      "Effortless image uploads powered by UploadThing, supporting both single and multiple file uploads.",
-    href: "/features/image-upload",
-  },
-  {
-    icon: Edit3,
-    title: "Rich Text Editor",
-    description:
-      "Seamlessly create and edit rich content using an integrated Quill editor.",
-    href: "/features/rich-text-editor",
-  },
+  // {
+  //   icon: CloudUpload,
+  //   title: "Image Upload",
+  //   description:
+  //     "Effortless image uploads powered by UploadThing, supporting both single and multiple file uploads.",
+  //   href: "/features/image-upload",
+  // },
   {
     icon: Lock,
-    title: "Secure Authentication",
+    title: "Secure Platform",
     description:
-      "Role-based authentication system with customizable access control.",
-    href: "/features/secure-authentication",
+      "Application is secured from unauthorized access from individuals",
   },
   {
-    icon: Database,
-    title: "Prisma ORM",
+    icon: UsersRound,
+    title: "Employee Activity Tracking",
     description:
-      "Leverage Prisma ORM for robust and scalable database management in TypeScript.",
-    href: "/features/prisma-orm",
+      "Role-based authentication system which enables tracking of which activities were carried out by whom",
+  },
+  {
+    icon: MapPinPlus,
+    title: "Multi-Location Support",
+    description:
+      "Manage the all locations of your pharmacy from a single dashboard",
+
   },
   {
     icon: BarChart,
     title: "Analytics Integration",
     description:
-      "Track performance with integrated analytics from PostHog and Vercel for actionable insights.",
-    href: "/features/analytics",
+      "Track performance with integrated analytics about your business with detailed reportingf.",
   },
 ];
 
@@ -140,26 +145,26 @@ export default function SiteHeader({ session }: { session: Session | null }) {
                       <h4 className="text-lg font-medium">Features</h4>
                       <Link
                         href="/features"
-                        className="text-sm text-blue-500 hover:underline"
+                        className="text-sm text-primary hover:underline"
                       >
                         View all
                       </Link>
                     </div>
                     <div className="grid gap-4 md:grid-cols-3 ">
                       {features.map((feature, index) => (
-                        <Link
-                          key={index}
-                          href={`/feature/${feature.title
-                            .toLowerCase()
-                            .replace(/\s+/g, "-")}`}
-                          className="block group"
-                        >
-                          <div className="flex items-start gap-4">
+                        // <Link
+                        //   key={index}
+                        //   href={`/feature/${feature.title
+                        //     .toLowerCase()
+                        //     .replace(/\s+/g, "-")}`}
+                        //   className="block group"
+                        // >
+                          <div className="flex items-start gap-4" key={index}>
                             <div className="p-2 bg-muted rounded-md group-hover:bg-muted/80">
-                              <feature.icon className="h-6 w-6 text-blue-500" />
+                              <feature.icon className="h-6 w-6 text-primary" />
                             </div>
                             <div>
-                              <h5 className="font-medium mb-1 group-hover:text-blue-500">
+                              <h5 className="font-medium mb-1 group-hover:text-primary">
                                 {feature.title}
                               </h5>
                               <p className="text-sm text-muted-foreground line-clamp-2">
@@ -167,7 +172,7 @@ export default function SiteHeader({ session }: { session: Session | null }) {
                               </p>
                             </div>
                           </div>
-                        </Link>
+                        // </Link>
                       ))}
                     </div>
                     <div className="mt-6 pt-4 border-t">
@@ -181,8 +186,7 @@ export default function SiteHeader({ session }: { session: Session | null }) {
                         </div>
                         <Button asChild variant="secondary">
                           <Link
-                            target="_blank"
-                            href="https://coding-school-typescript.vercel.app/give-away"
+                            href="/register"
                           >
                             Get started
                           </Link>
@@ -194,7 +198,7 @@ export default function SiteHeader({ session }: { session: Session | null }) {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link href="/#pricing" legacyBehavior passHref>
+                <Link href="#pricing" legacyBehavior passHref>
                   <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
                     Pricing
                   </NavigationMenuLink>
@@ -279,7 +283,7 @@ export default function SiteHeader({ session }: { session: Session | null }) {
                       onClick={() => setOpen(false)}
                     >
                       <div className="p-2 bg-muted rounded-md">
-                        <feature.icon className="h-6 w-6 text-blue-500" />
+                        <feature.icon className="h-6 w-6 text-primary" />
                       </div>
                       <div>
                         <h5 className="font-medium mb-1">{feature.title}</h5>

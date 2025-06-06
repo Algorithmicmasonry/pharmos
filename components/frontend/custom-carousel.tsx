@@ -5,18 +5,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const carouselItems = [
   {
     image: "/images/slide-1.jpg",
-    title: "Accelerate Development,",
-    subtitle: "Build Fullstack Apps Faster",
+    title: "Manage Your whole business",
+    subtitle: "Work with all of your businessses data from a single dashboard",
   },
   {
     image: "/images/slide-2.jpg",
     title: "Powerful Tools,",
-    subtitle: "All in One Starter Kit",
+    subtitle: "All in One suite of applications your business needs",
   },
   {
     image: "/images/slide-3.jpg",
     title: "Streamlined Workflows,",
-    subtitle: "Focus on What Matters",
+    subtitle: "Focus on What Matters in your business with data",
   },
 ];
 

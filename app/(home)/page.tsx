@@ -71,16 +71,17 @@ export default async function Home() {
       <div className="max-w-6xl mx-auto">
         <div className="mx-auto max-w-4xl py-16 ">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <Announcement
-              title="Introducing email templates"
+            {/* <Announcement
+              title="Intoducing barcode scanner integration"
               href="/email-templates"
-            />
+            /> */}
           </div>
           <div className="text-center text-balance">
-            <SectionHeading title="Stop wasting hours managing Stripe invoices" />
+            <SectionHeading title="Stop losing money to stockouts, expired drugs & manual records" />
             <p className="mt-6 text-lg leading-8 text-gray-600 mb-4">
-              Ditch the Stripe Invoicing fee, reduce customer support, and focus
-              on your startup. 1-minute no-code setup.
+              Automate inventory, track sales, and manage your entire pharmacy
+              in one place. We handle staff training and setup for you — get
+              started in minutes.
             </p>
           </div>
         </div>
@@ -96,22 +97,23 @@ export default async function Home() {
           <FAQ />
         </div>
       </div>
-      <div className="mx-auto max-w-4xl py-16 ">
+      <div className="mx-auto max-w-4xl py-16">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            Ditch Stripe Invoicing fee and focus on your startup
+            Stop Losing Control of Your Pharmacy Business
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600 mb-4">
-            Let your customers generate, edit, and download invoices themselves.
+            From inventory to staff to sales — PharmOS helps you monitor,
+            manage, and scale your pharmacy from one simple dashboard.
           </p>
-          <CustomLinkButton title="Get Started" href="/courses/next/#pricing" />
-          <div className="pt-8 pb-4 flex items-center  justify-center gap-8">
-            <div className="">
+          <CustomLinkButton title="Start Free Trial" href="/register" />
+          <div className="pt-8 pb-4 flex items-center justify-center gap-8">
+            <div>
               <AnimatedAvatars />
             </div>
-            <div className="">
+            <div>
               <StarRating count={5} />
-              <p>785 founders sleep better</p>
+              <p>Trusted by over 250 pharmacy owners in Nigeria</p>
             </div>
           </div>
           <div className="pb-8">

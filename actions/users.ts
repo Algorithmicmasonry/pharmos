@@ -5,6 +5,8 @@ import { db } from "@/prisma/db";
 import { UserProps } from "@/types/types";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
+
+
 export async function createUser(data: UserProps) {
   const { email, password, firstName, lastName, name, phone, image } = data;
   try {
@@ -49,18 +51,18 @@ export async function createUser(data: UserProps) {
     };
   }
 }
-export type KitResponseData = { fkUsers: number; hsaUsers: number };
-export async function getKitUsers() {
-  const endpoint = process.env.KIT_API_ENDPOINT as string;
-  try {
-    const res = await fetch(endpoint, {
-      next: { revalidate: 0 }, // Revalidate immediately
-    });
-    const response = await res.json();
-    const data = response.data;
-    return data as KitResponseData;
-  } catch (error) {
-    console.error("Error fetching the count:", error);
-    return null;
-  }
-}
+// export type KitResponseData = { fkUsers: number; hsaUsers: number };
+// export async function getKitUsers() {
+//   const endpoint = process.env.KIT_API_ENDPOINT as string;
+//   try {
+//     const res = await fetch(endpoint, {
+//       next: { revalidate: 0 }, // Revalidate immediately
+//     });
+//     const response = await res.json();
+//     const data = response.data;
+//     return data as KitResponseData;
+//   } catch (error) {
+//     console.error("Error fetching the count:", error);
+//     return null;
+//   }
+// }

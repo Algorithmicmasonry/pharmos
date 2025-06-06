@@ -4,42 +4,43 @@ import SectionHeading from "../global/SectionHeading";
 
 const reviews = [
   {
-    name: "Jack",
-    username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
-    img: "https://avatar.vercel.sh/jack",
+    name: "Mrs. Chinelo Umeh",
+    username: "@vitalrx_enugu",
+    body: "PharmOs helped us track our inventory across three branches without hiring extra staff. The stock alerts save us every month.",
+    img: "https://avatar.vercel.sh/chinelo",
   },
   {
-    name: "Jill",
-    username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
-    img: "https://avatar.vercel.sh/jill",
+    name: "Dr. Musa Ibrahim",
+    username: "@lifemed_pharmacy",
+    body: "The WhatsApp alerts and POS system are top-notch. PharmOs feels like it was built specifically for Nigerian pharmacies.",
+    img: "https://avatar.vercel.sh/musa",
   },
   {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/john",
+    name: "Blessing Okoro",
+    username: "@bless_inventory",
+    body: "Since using PharmOs, we’ve reduced expired product losses by over 40%. It’s the easiest pharmacy software I’ve used.",
+    img: "https://avatar.vercel.sh/blessing",
   },
   {
-    name: "Jane",
-    username: "@jane",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/jane",
+    name: "Chuka Eze",
+    username: "@chuka_sales",
+    body: "Managing sales, staff shifts, and inventory used to be a nightmare. PharmOs brought everything into one clean dashboard.",
+    img: "https://avatar.vercel.sh/chuka",
   },
   {
-    name: "Jenny",
-    username: "@jenny",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/jenny",
+    name: "Hauwa Bello",
+    username: "@greenmedics_ng",
+    body: "PharmOs keeps me updated even when I’m not at the store. The mobile alerts give me full control from anywhere.",
+    img: "https://avatar.vercel.sh/hauwa",
   },
   {
-    name: "James",
-    username: "@james",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/james",
+    name: "Tope Ayodele",
+    username: "@topebooks",
+    body: "Finally, a Nigerian-built solution that understands the challenges of running a pharmacy here. PharmOs gets it right.",
+    img: "https://avatar.vercel.sh/tope",
   },
 ];
+
 
 const firstRow = reviews.slice(0, reviews.length / 2);
 const secondRow = reviews.slice(reviews.length / 2);

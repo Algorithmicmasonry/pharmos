@@ -20,7 +20,7 @@ export const Highlight = ({
   return (
     <span
       className={cn(
-        "font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-700/[0.2] dark:text-emerald-500 px-1 py-0.5",
+        "font-bold bg-primary-foreground text-primary  px-1 py-0.5",
         className
       )}
     >
@@ -32,40 +32,35 @@ export const Highlight = ({
 const CARDS = [
   {
     id: 0,
-    name: "Manu Arora",
-    designation: "Senior Software Engineer",
+    name: "Chinelo Umeh",
+    designation: "Pharmacy Owner, Enugu",
     content: (
       <p>
-        These cards are amazing, <Highlight>I want to use them</Highlight> in my
-        project. Framer motion is a godsend ngl tbh fam 🙏
+        Since switching to <Highlight>PharmOS</Highlight>, I no longer worry about stockouts or expired drugs. 
+        The <Highlight>stock alert feature</Highlight> is a game-changer.
       </p>
     ),
   },
   {
     id: 1,
-    name: "Elon Musk",
-    designation: "Senior Shitposter",
+    name: "Dr. Musa Ibrahim",
+    designation: "Managing Director, LifeMed Pharmacy",
     content: (
       <p>
-        I dont like this Twitter thing,{" "}
-        <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-        would like to call it <Highlight>X.com</Highlight> so that it can easily
-        be confused with adult sites.
+        What impressed me most was how easy it was to track sales across all my branches.
+        <Highlight>PharmOS' POS system</Highlight> is fast, intuitive, and built for busy pharmacies like ours.
       </p>
     ),
   },
   {
     id: 2,
-    name: "Tyler Durden",
-    designation: "Manager Project Mayhem",
+    name: "Blessing Okoro",
+    designation: "Inventory Manager, VitalCare",
     content: (
       <p>
-        The first rule of
-        <Highlight>Fight Club</Highlight> is that you do not talk about fight
-        club. The second rule of
-        <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-        club.
+        Our workflow has improved dramatically. With <Highlight>PharmOS' expiry tracking</Highlight> and 
+        <Highlight>WhatsApp alerts</Highlight>, we’re always ahead of issues before they become problems.
       </p>
     ),
   },
-];
+]
