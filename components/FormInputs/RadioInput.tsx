@@ -5,6 +5,7 @@ type RadioOption = {
   id: string;
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type RadioInputProps = {
   radioOptions: RadioOption[];
   register: any;
@@ -12,6 +13,9 @@ type RadioInputProps = {
   name: string;
   errors: any;
 };
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 export default function RadioInput({
   radioOptions,
   register,

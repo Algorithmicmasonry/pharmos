@@ -12,27 +12,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  firstName      String
-  lastName       String
-  phone          String?
-  whatsappNumber String?
-  email          String    @unique
-  emailVerified  Boolean   @default(false)
-  image          String?
-  role           UserRole  @default(OWNER)
-  password       String?
-  status         Boolean   @default(true)
-  accounts       Account[]
-  sessions       Session[]
-  isVerified      Boolean   @default(false)
-  token          Int?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+// =================================
+// CORE AUTH AND USER MODELS
+// =================================
 
-  @@map("user")
+model User {
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  firstName          String? // Made optional to align with Mongoose
+  lastName           String? // Made optional to align with Mongoose
+  phone              String?
+  whatsappNumber     String?
+  email              String    @unique
+  emailVerified      Boolean   @default(false)
+  image              String?
+  role               UserRole  @default(OWNER)
+  password           String?
+  status             Boolean   @default(true) // true = active, false = inactive
+  isVerified         Boolean   @default(false)
+  token              Int?
+  lastLogin          DateTime?
+  onboarded          Boolean   @default(false)
+  // Granular permissions from Mongoose schema
+  canManageInventory Boolean   @default(false)
+  canProcessSales    Boolean   @default(true)
+  canViewReports     Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  // Many-to-many relationships (explicit for MongoDB)
+  businessIds           String[]   @db.ObjectId
+  businesses            Business[] @relation("UserBusinesses", fields: [businessIds], references: [id])
+  accessibleLocationIds String[]   @db.ObjectId
+  accessibleLocations   Location[] @relation("AccessibleUserLocations", fields: [accessibleLocationIds], references: [id])
+
+  // Relationships
+  accounts           Account[]
+  sessions           Session[]
+  ownedBusiness      Business?     @relation("BusinessOwner") // Business user owns
+  managedLocations   Location[]    @relation("LocationManager") // Locations user manages
+  assignedLocation   Location?     @relation("AssignedUserLocation", fields: [assignedLocationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assignedLocationId String?       @db.ObjectId
+  selectedLocation   Location?     @relation("SelectedUserLocation", fields: [selectedLocationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  selectedLocationId String?       @db.ObjectId
+  currentBusiness    Business?     @relation("CurrentUserBusiness", fields: [currentBusinessId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  currentBusinessId  String?       @db.ObjectId
+  createdProducts    Product[]
+  userSettings       UserSettings?
+  receiptsReceived   Receipt[]
+  stockAlerts        StockAlert[]
+
+  @@map("users")
 }
 
 model Account {
@@ -64,7 +94,7 @@ model Session {
   ipAddress String?
   userAgent String?
   User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String? @db.ObjectId
+  userId    String?  @db.ObjectId
 
   @@unique([token])
   @@map("session")
@@ -81,7 +111,7 @@ enum UserRole {
 }
 
 model Verification {
-  id         String    @id @map("_id")
+  id         String    @id @default(cuid()) @map("_id")
   identifier String
   value      String
   expiresAt  DateTime
@@ -89,4 +119,424 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+// =================================
+// BUSINESS AND LOCATION MODELS
+// =================================
+
+model Business {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  type         BusinessType
+  logo         String?
+  contactEmail String?
+  phone        String?
+  status       BusinessStatus @default(ACTIVE)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  // Many-to-many relationships (explicit for MongoDB)
+  userIds String[] @db.ObjectId
+  users   User[]   @relation("UserBusinesses", fields: [userIds], references: [id])
+
+  // Relationships
+  owner         User           @relation("BusinessOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerId       String         @unique @db.ObjectId
+  locations     Location[]
+  products      Product[]
+  suppliers     Supplier[]
+  orders        Order[]
+  invoices      Invoice[]
+  receipts      Receipt[]
+  productPrices ProductPrice[]
+  stockAlerts   StockAlert[]
+  activeUsers   User[]         @relation("CurrentUserBusiness")
+
+  @@map("businesses")
+}
+
+model Location {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  address       String
+  isActive      Boolean      @default(true)
+  contactNumber String?
+  locationType  LocationType
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Many-to-many relationships (explicit for MongoDB)
+  accessibleUserIds String[] @db.ObjectId
+  accessibleToUsers User[]   @relation("AccessibleUserLocations", fields: [accessibleUserIds], references: [id])
+
+  // Relationships
+  business       Business       @relation(fields: [businessId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  businessId     String         @db.ObjectId
+  manager        User?          @relation("LocationManager", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  managerId      String?        @db.ObjectId
+  productStocks  ProductStock[]
+  productBatches ProductBatch[]
+  orders         Order[]
+  transactions   Transaction[]
+  products       Product[]
+  assignedUsers  User[]         @relation("AssignedUserLocation")
+  selectedUsers  User[]         @relation("SelectedUserLocation")
+
+  @@map("locations")
+}
+
+// =================================
+// PRODUCT AND INVENTORY MODELS
+// =================================
+
+model Product {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  sku          String?   @unique
+  description  String?
+  category     String?
+  reorderLevel Int
+  expiryDate   DateTime?
+  isExpired    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relationships
+  business         Business          @relation(fields: [businessId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  businessId       String            @db.ObjectId
+  location         Location?         @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  locationId       String?           @db.ObjectId
+  supplier         Supplier?         @relation(fields: [supplierId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  supplierId       String?           @db.ObjectId
+  createdBy        User              @relation(fields: [createdById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdById      String            @db.ObjectId
+  batches          ProductBatch[]
+  stock            ProductStock[]
+  prices           ProductPrice[]
+  invoiceItems     InvoiceItem[]
+  transactionItems TransactionItem[]
+  orders           Order[]
+  stockAlerts      StockAlert[]
+  expiryAlerts     ExpiryAlert[]
+
+  @@map("products")
+}
+
+model ProductBatch {
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  batchNumber     String
+  manufactureDate DateTime?
+  expiryDate      DateTime
+  quantity        Int
+  status          BatchStatus @default(ACTIVE)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  // Relationships
+  product     Product      @relation(fields: [productId], references: [id])
+  productId   String       @db.ObjectId
+  location    Location     @relation(fields: [locationId], references: [id])
+  locationId  String       @db.ObjectId
+  expiryAlert ExpiryAlert?
+
+  @@map("productBatches")
+}
+
+model ProductStock {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String   @db.ObjectId
+  location   Location @relation(fields: [locationId], references: [id])
+  locationId String   @db.ObjectId
+
+  @@unique([productId, locationId])
+  @@map("productStocks")
+}
+
+model ProductPrice {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  sellingPrice  Float
+  costPrice     Float
+  currency      String    @default("NGN")
+  discount      Float     @default(0) // Percentage discount
+  effectiveDate DateTime  @default(now())
+  expiryDate    DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relationships
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String   @db.ObjectId
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String   @db.ObjectId
+
+  @@map("productPrices")
+}
+
+model Supplier {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  contactEmail String?
+  phone        String?
+  countryCode  String?
+  address      String?
+  website      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relationships
+  business   Business  @relation(fields: [businessId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  businessId String    @db.ObjectId
+  products   Product[]
+
+  @@map("suppliers")
+}
+
+// =================================
+// FINANCIAL AND TRANSACTIONAL MODELS
+// =================================
+
+model Order {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  quantity  Int
+  price     Float // Price at time of order
+  currency  String      @default("NGN")
+  type      OrderType
+  status    OrderStatus @default(PENDING)
+  notes     String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  // Relationships
+  location   Location @relation(fields: [locationId], references: [id])
+  locationId String   @db.ObjectId
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String   @db.ObjectId
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String   @db.ObjectId
+
+  @@map("orders")
+}
+
+model Invoice {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  customerName  String
+  customerEmail String?
+  totalAmount   Float
+  discount      Float         @default(0)
+  status        InvoiceStatus @default(PENDING)
+  dueDate       DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relationships
+  business   Business      @relation(fields: [businessId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  businessId String        @db.ObjectId
+  items      InvoiceItem[]
+  receipts   Receipt[]
+
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity  Int
+  price     Float // Price at time of invoice creation
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+
+  @@map("invoiceItems")
+}
+
+model Receipt {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  amountPaid    Float
+  paymentMethod PaymentMethod
+  transactionId String?       @unique
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relationships
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId    String   @db.ObjectId
+  business     Business @relation(fields: [businessId], references: [id])
+  businessId   String   @db.ObjectId
+  receivedBy   User     @relation(fields: [receivedById], references: [id])
+  receivedById String   @db.ObjectId
+
+  @@map("receipts")
+}
+
+model Transaction {
+  id             String            @id @default(auto()) @map("_id") @db.ObjectId
+  totalAmount    Float
+  amountReceived Float?
+  changeGiven    Float             @default(0)
+  paymentMethod  PaymentMethod
+  status         TransactionStatus @default(COMPLETED)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  // Relationships
+  location   Location          @relation(fields: [locationId], references: [id])
+  locationId String            @db.ObjectId
+  items      TransactionItem[]
+
+  @@map("transactions")
+}
+
+model TransactionItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity  Int
+  price     Float // Price at time of transaction
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  transactionId String      @db.ObjectId
+  product       Product     @relation(fields: [productId], references: [id])
+  productId     String      @db.ObjectId
+
+  @@map("transactionItems")
+}
+
+// =================================
+// UTILITY AND SETTINGS MODELS
+// =================================
+
+model UserSettings {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  preferredEmail    Boolean  @default(true)
+  preferredSms      Boolean  @default(false)
+  preferredWhatsapp Boolean  @default(false)
+  language          String   @default("en")
+  timezone          String   @default("Africa/Lagos")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relationships
+  user   User   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId String @unique @db.ObjectId
+
+  @@map("userSettings")
+}
+
+model StockAlert {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  alertType AlertChannel[] // e.g. ["EMAIL", "SMS"]
+  message   String
+  status    Boolean        @default(false) // false = not sent, true = sent
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  // Relationships
+  business   Business @relation(fields: [businessId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  businessId String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId     String   @db.ObjectId
+  product    Product  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productId  String   @db.ObjectId
+
+  @@map("stockAlerts")
+}
+
+model ExpiryAlert {
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
+  daysUntilExpiry  Int
+  alertType        ExpiryAlertType
+  notified         Boolean         @default(false)
+  notificationDate DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  // Relationships
+  product   Product      @relation(fields: [productId], references: [id])
+  productId String       @db.ObjectId
+  batch     ProductBatch @relation(fields: [batchId], references: [id])
+  batchId   String       @unique @db.ObjectId
+
+  @@map("expiryAlerts")
+}
+
+// =================================
+// ENUMS
+// =================================
+
+enum BusinessType {
+  PHARMACY
+  SUPERMARKET
+  RESTAURANT
+  OTHER
+}
+
+enum BusinessStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum LocationType {
+  RETAIL
+  WAREHOUSE
+  HEADQUARTERS
+}
+
+enum BatchStatus {
+  ACTIVE
+  EXPIRED
+  SOLD
+  RETURNED
+}
+
+enum OrderType {
+  SALE
+  RESTOCK
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+  CARD
+  MOBILE_MONEY
+  TRANSFER // Adding from Transaction model
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum AlertChannel {
+  EMAIL
+  SMS
+  WHATSAPP
+}
+
+enum ExpiryAlertType {
+  EXPIRED
+  NEAR_EXPIRY
 }

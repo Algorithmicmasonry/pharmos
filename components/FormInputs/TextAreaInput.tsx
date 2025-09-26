@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 import React from "react";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type TextAreaProps = {
   register: any;
   errors: any;
@@ -7,6 +9,7 @@ type TextAreaProps = {
   name: string;
   helperText?: string;
 };
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function TextArea({
   register,
   errors,

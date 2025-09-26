@@ -1,42 +1,38 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { type Icon } from "@tabler/icons-react"
-
+import Link from "next/link";
+import { Button } from "./ui/button";
 import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { TrendingUp } from "lucide-react";
 
-export function NavSecondary({
-  items,
-  ...props
-}: {
-  items: {
-    title: string
-    url: string
-    icon: Icon
-  }[]
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+export function NavSecondary() {
   return (
-    <SidebarGroup {...props}>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <a href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
-  )
+    <Card className="gap-2 py-4 shadow-none">
+      <CardHeader className="px-4">
+        <CardTitle className="text-sm">E-commerce Website</CardTitle>
+        <CardDescription>
+          Check out your live e-commerce website here
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="px-4">
+        <div className="grid gap-2.5">
+          <Link href="/ecommerce-website" className="flex flex-col items-center justify-between">
+            <Button
+              className="bg-sidebar-primary text-sidebar-primary-foreground w-full shadow-none"
+              size="sm"
+            >
+              Live Website
+               <TrendingUp />
+            </Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  );
 }

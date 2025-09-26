@@ -14,6 +14,7 @@ import Logo from "../global/logo";
 import { Button } from "../ui/button";
 import { createUser } from "@/actions/user";
 import { UserProps } from "@/types/types";
+import { signIn} from "next-auth/react";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,6 @@ export default function RegisterForm() {
     handleSubmit,
     register,
     formState: { errors },
-    reset,
   } = useForm<UserProps>();
   const router = useRouter();
 
@@ -34,10 +34,10 @@ export default function RegisterForm() {
       "https://utfs.io/f/59b606d1-9148-4f50-ae1c-e9d02322e834-2558r.png";
     try {
       const res = await createUser(data);
-    
-      if (res.status === 409) {
+
+      if (res.error) {
         setLoading(false);
-        setEmailErr(res.errorMessage);
+        setEmailErr(res.error);
       } else if (res.status === 200) {
         setLoading(false);
         toast.success("Account Created successfully");
@@ -130,7 +130,11 @@ export default function RegisterForm() {
         </div>
 
         <div className="w-full">
-          <Button variant={"outline"} className="w-full">
+          <Button
+            variant={"outline"}
+            className="w-full"
+            onClick={() => signIn("google")}
+          >
             <FaGoogle className="mr-2 w-6 h-6 text-red-500" />
             Signup with Google
           </Button>

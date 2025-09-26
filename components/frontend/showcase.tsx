@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 
 import Marquee from "@/components/magicui/marquee";
+import Image from "next/image";
 const allShowcases = [
   {
     title: "Tech Innovators",
@@ -59,7 +60,7 @@ export function ShowcaseCard({
       href={href}
       className="flex flex-col gap-2 group relative overflow-hidden cursor-pointer"
     >
-      <img
+      <Image
         src={image}
         alt={title}
         width={500}

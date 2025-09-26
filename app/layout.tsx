@@ -17,7 +17,7 @@ const baseUrl =
   "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "PharmOS – Smart Pharmacy Operating System",
+  title: "PharmOS – AI-powered Pharmacy Operating System",
   description:
     "PharmOS helps Nigerian pharmacies manage inventory, sales, employees, and more — all from a single dashboard.",
   metadataBase: new URL(`https://${baseUrl}`),

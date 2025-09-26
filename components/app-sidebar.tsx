@@ -1,26 +1,8 @@
-"use client"
+"use client";
 
-import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers
-} from "@tabler/icons-react"
-import * as React from "react"
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -29,8 +11,30 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import Logo from "./global/logo"
+} from "@/components/ui/sidebar";
+import {
+  IconCamera,
+  IconDatabase,
+  IconFileAi,
+  IconFileDescription,
+  IconFileWord,
+  IconHelp,
+  IconReport,
+  IconSearch,
+  IconSettings,
+} from "@tabler/icons-react";
+import {
+  ClipboardList,
+  Home,
+  PackageSearch,
+  ReceiptText,
+  ShoppingCart,
+  Siren,
+  Users,
+  UsersRound,
+} from "lucide-react";
+import * as React from "react";
+import Logo from "./global/logo";
 
 const data = {
   user: {
@@ -41,28 +45,44 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
+      url: "/dashboard",
+      icon: Home,
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
+      title: "Employees",
+      url: "/employees",
+      icon: UsersRound,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: "Inventory",
+      url: "/inventory",
+      icon: PackageSearch,
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
+      title: "POS",
+      url: "/pos",
+      icon: ShoppingCart,
     },
     {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
+      title: "Transactions",
+      url: "/transactions",
+      icon: ClipboardList,
+    },
+    {
+      title: "Stock Alerts",
+      url: "/stock-alerts",
+      icon: Siren,
+    },
+
+    {
+      title: "Suppliers",
+      url: "/suppliers",
+      icon: Users,
+    },
+    {
+      title: "Receipt",
+      url: "/receipt",
+      icon: ReceiptText,
     },
   ],
   navClouds: [
@@ -147,9 +167,20 @@ const data = {
       icon: IconFileWord,
     },
   ],
+};
+
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  user:
+    | {
+        id: string | undefined;
+        name: string;
+        email: string;
+        image?: string | null | undefined | undefined;
+      }
+    | undefined;
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -159,22 +190,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/">
-                {/* <IconInnerShadowTop className="!size-5" /> */}
-                <span className="text-base font-semibold"><Logo/></span>
-              </a>
+              {/* <IconInnerShadowTop className="!size-5" /> */}
+              <span className="text-base font-semibold">
+                <Logo />
+              </span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* <NavDocuments items={data.documents} /> */}
+        <NavSecondary />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={props.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

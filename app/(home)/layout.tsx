@@ -3,6 +3,8 @@ import Footer from "@/components/homepage/site-footer";
 import SiteHeader from "@/components/homepage/site-header"
 import React, { ReactNode } from "react";
 import type { Metadata } from "next";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 
 const baseUrl =
@@ -51,10 +53,15 @@ export default async function HomeLayout({
   children: ReactNode;
 }) {
 
+  const session = await auth.api.getSession({
+    headers:  await headers()
+  })
+
+
   return (
     <div className="bg-white">
       <PromoBanner />
-      <SiteHeader />
+      <SiteHeader session={session?.user ?? null}/>
       {children}
       <Footer />
     </div>

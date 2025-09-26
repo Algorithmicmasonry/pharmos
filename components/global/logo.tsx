@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Chrome, Code, GraduationCap } from "lucide-react";
+import { Chrome, GraduationCap } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 export default function Logo({
   variant = "light",
@@ -12,7 +11,7 @@ export default function Logo({
 }) {
   if (variant === "light") {
     return (
-      <div className="flex items-center space-x-2">
+      <Link href={"/"} className="flex items-center space-x-2">
         <div className="bg-primary rounded-full p-1">
           <span className="font-bold text-xl text-white">
             <Chrome className={cn("w-6 h-6", size === "lg" && "w-10 h-10")} />
@@ -21,7 +20,7 @@ export default function Logo({
         <span className={cn(" font-bold text-xl", size === "lg" && "text-4xl")}>
           Pharm<span className="text-primary">OS</span>
         </span>
-      </div>
+      </Link>
     );
   } else {
     return (

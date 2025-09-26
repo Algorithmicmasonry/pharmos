@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Loader, Plus } from "lucide-react";
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type SubmitButtonProps = {
   title: string;
   loadingTitle?: string;
@@ -12,6 +11,8 @@ type SubmitButtonProps = {
   showIcon?: boolean;
   size?: "default" | "sm" | "lg" | "icon" | null | undefined;
 };
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export default function SubmitButton({
   title,
   loadingTitle = "Saving Please wait...",

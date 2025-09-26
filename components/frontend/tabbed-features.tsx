@@ -3,25 +3,16 @@
 import {
   BarChart,
   BarChart2,
-  CloudUpload,
-  Database,
-  DollarSign,
-  Edit3,
-  FileText,
-  GraduationCap,
   Layout,
   Lock,
   MapPinPlus,
   ScanBarcode,
   Store,
-  Users,
   UsersRound,
-  WalletMinimal,
+  WalletMinimal
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SectionHeader from "./section-header";

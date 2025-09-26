@@ -1,93 +1,93 @@
 "use server"
 
-import { auth } from "@/lib/auth"
 import { db } from "@/prisma/db"
-import { LoginProps, UserProps } from "@/types/types"
-import { APIError } from "better-auth/api"
-import { redirect } from "next/navigation"
+import { UserProps } from "@/types/types"
+import bcrypt from 'bcrypt'
+
+
+/**
+ * Checks if a user has completed the onboarding process.
+ *
+ * @param userId The ID of the user to check.
+ * @returns A Promise that resolves to `true` if the user is onboarded, `false` otherwise.
+ * @throws {Error} If the userId is invalid or a database error occurs.
+ */
+export const checkUserOnboardingStatus = async (userId: string): Promise<boolean> => {
+  if (!userId) {
+    throw new Error("User ID is required to check onboarding status.");
+  }
+
+  try {
+    // Find the user by ID and select only the 'onboarded' field
+    const user = await db.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        onboarded: true, // Only fetch the 'onboarded' field
+      },
+    });
+
+    // If user is found, return their 'onboarded' status.
+    // If user is not found, or onboarded is null/undefined (though schema defaults to false), return false.
+    return user?.onboarded === true;
+  } catch (error) {
+    console.error(`Error checking onboarding status for user ${userId}:`, error);
+    throw new Error("Failed to retrieve user onboarding status due to a database error.");
+  }
+};
+
 
 export const createUser = async (formData: UserProps) => {
   console.log("Calling create user function")
  const {email,name, firstName, lastName, password, image } = formData
 
  try {
- const newUser =  await auth.api.signUpEmail({
-    body : {
-      name,
-      email,
-      lastName,
-      firstName,
-      password,
-      image,
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const existingUser = await db.user.findUnique({
+    where: {
+      email
     }
   })
 
-  console.log("This is the object returned from better auth: ", newUser)
-
-  return {
-    errorMessage: null,
-    status: 200,
-    data: newUser.user,
-  }
- } catch (error) {
- if (error instanceof APIError) {
-      switch (error.status) {
-        case "UNPROCESSABLE_ENTITY":
-          return { 
-            errorMessage: "User already exists.",
-             status: 500, 
-             data: null};
-        case "BAD_REQUEST":
-          return { errorMessage: "Invalid email." ,
-            status: 500,
-            data: null
-          };
-        default:
-          return { errorMessage: "Something went wrong.",
-            status: 500,
-            data: null
-           };
-      }
+  if(existingUser) {
+    return {
+      error: `Email already exists`,
+      status: 409,
+      data: null
     }
-    console.error("sign up with email and password has not worked", error);
- }
-  redirect('/dashboard')
-}
+  }
 
-export const signIn = async (formData: LoginProps) => {
+  const newUser = await db.user.create({
+    data: {
+      email,
+      password: hashedPassword,
+      name,
+      firstName,
+      lastName,
+      image
+    }
+  })
+ 
+  return {
+    error: null,
+    status: 200,
+    data:newUser
+  }
+
   
- const {email, password } = formData
-
- try {
-      const signedInUser =  await auth.api.signInEmail({
-      body: {
-        email,
-        password
-      },
-    });
-
-  console.log("This is the object returned from better auth: ", signedInUser)
-
-  return {
-    errorMessage: null,
-    status: 200,
-    data: signedInUser,
-  }
  } catch (error) {
- if (error instanceof APIError) {
-      switch (error.status) {
-        case "UNAUTHORIZED":
-          return { errorMessage: "User Not Found." };
-        case "BAD_REQUEST":
-          return { errorMessage: "Invalid email." };
-        default:
-          return { errorMessage: "Something went wrong." };
-      }
-    }
-    console.error("sign up with email and password has not worked", error);
- }
-  redirect('/dashboard')
+    console.log(error);
+    return {
+  error: `Something went wrong. Please try again`,
+  status: 500,
+  data: null
+};
 }
+
+}
+
+
 
 export const searchAccount = async  (email: string) => {
   const user = await db.user.findUnique({

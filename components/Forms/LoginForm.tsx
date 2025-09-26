@@ -1,19 +1,21 @@
 "use client";
-import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
-import React, { useState } from "react";
+
+import { LoginProps } from "@/types/types";
+import { Loader2, Lock, Mail } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
-import { FaGithub, FaGoogle } from "react-icons/fa";
-import TextInput from "../FormInputs/TextInput";
+import { FaGoogle } from "react-icons/fa";
+import { signIn } from "next-auth/react";
 import PasswordInput from "../FormInputs/PasswordInput";
 import SubmitButton from "../FormInputs/SubmitButton";
-import Logo from "../global/logo";
+import TextInput from "../FormInputs/TextInput";
 import CustomCarousel from "../frontend/custom-carousel";
-import { LoginProps } from "@/types/types";
-import { signIn } from "@/actions/user";
+import Logo from "../global/logo";
+import { Button } from "../ui/button";
+
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const {
@@ -22,8 +24,6 @@ export default function LoginForm() {
     formState: { errors },
     reset,
   } = useForm<LoginProps>();
-  const params = useSearchParams();
-  const returnUrl = params.get("returnUrl") || "/dashboard";
   const [passErr, setPassErr] = useState("");
   const router = useRouter();
 
@@ -32,9 +32,12 @@ export default function LoginForm() {
       setLoading(true);
       setPassErr("");
       console.log("Attempting to sign in with credentials:", data);
-      const loginData = await signIn(data)
+      const loginData = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
       console.log("SignIn response:", loginData);
-      if (loginData?.errorMessage) {
+      if (loginData?.error) {
         setLoading(false);
         toast.error("Sign-in error: Check your credentials");
         setPassErr("Wrong Credentials, Check again");
@@ -43,10 +46,11 @@ export default function LoginForm() {
         // Sign-in was successful
         // setShowNotification(false);
         reset();
-        setLoading(false);
+
         toast.success("Login Successful");
         setPassErr("");
         router.push("/dashboard");
+        setLoading(false);
       }
     } catch (error) {
       setLoading(false);
@@ -54,7 +58,6 @@ export default function LoginForm() {
       // toast.error("Its seems something is wrong with your Network");
     }
   }
-
 
   return (
     <div className="w-full lg:grid h-screen lg:min-h-[600px] lg:grid-cols-2 relative ">
@@ -105,14 +108,13 @@ export default function LoginForm() {
 
             <div className="w-full">
               <Button
-                // onClick={() => signIn("google")}
+                onClick={() => signIn("google")}
                 variant={"outline"}
                 className="w-full"
               >
                 <FaGoogle className="mr-2 w-6 h-6 text-red-500" />
                 Login with Google
               </Button>
-             
             </div>
             <p className="mt-6 text-center text-sm text-gray-500">
               Not a Registered ?{" "}

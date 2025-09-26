@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@prisma/client";
 import { nextCookies } from "better-auth/next-js";
+import { sendEmail } from "./email";
  
 const prisma = new PrismaClient();
  
@@ -19,10 +20,6 @@ export const auth = betterAuth({
       lastName: {
         type: "string", 
         required: true
-      },
-      image: {
-        type: "string",
-        required: false
       }
     }
   },
@@ -38,7 +35,15 @@ export const auth = betterAuth({
       accountLinking: {
         enabled: true,
       }
-    }
+    },
+    sendResetPassword : async ({user, url}) => {
+      await sendEmail({
+        to:user.email,
+        subject: "Reset your password",
+        text: `Click the link to reset your password: ${url}`
+      })
+    },
+    resetPasswordTokenExpiresIn: 3600,
   },
   socialProviders: { 
     // github: { 

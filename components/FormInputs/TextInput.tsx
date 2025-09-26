@@ -1,13 +1,13 @@
-import { cn } from "@/lib/utils";
-import React from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { CircleHelp } from "lucide-react";
 
-import { CircleHelp, Mail } from "lucide-react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type TextInputProps = {
   register: any;
   errors: any;
@@ -19,6 +19,9 @@ type TextInputProps = {
   placeholder?: string;
   icon?: any;
 };
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 export default function TextInput({
   register,
   errors,

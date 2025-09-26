@@ -1,20 +1,19 @@
 import ComparisonFeatures from "@/components/ComparisonFeatures";
-import Announcement from "@/components/frontend/announcement";
+import { FAQ } from "@/components/FAQ";
+import { CustomerReviews } from "@/components/frontend/CustomerReviews";
+import HeroSection from "@/components/frontend/hero-section";
+import Showcase from "@/components/frontend/showcase";
+import TabbedFeatures from "@/components/frontend/tabbed-features";
 import { Testimonials } from "@/components/frontend/testimonials";
 import { AnimatedAvatars } from "@/components/global/avatar-circles";
 import { CustomLinkButton } from "@/components/global/CustomLinkButton";
-import Iframe from "react-iframe";
+import SectionHeading from "@/components/global/SectionHeading";
 import StarRating from "@/components/global/StarRating";
 import HowItWorks from "@/components/HowItWorks";
 import { BorderBeam } from "@/components/magicui/border-beam";
-import Image from "next/image";
-import SectionHeading from "@/components/global/SectionHeading";
 import Pricing from "@/components/Pricing";
-import { FAQ } from "@/components/FAQ";
-import { CustomerReviews } from "@/components/frontend/CustomerReviews";
-import Showcase from "@/components/frontend/showcase";
-import HeroSection from "@/components/frontend/hero-section";
-import TabbedFeatures from "@/components/frontend/tabbed-features";
+import Image from "next/image";
+import Iframe from "react-iframe";
 
 
 export default async function Home() {

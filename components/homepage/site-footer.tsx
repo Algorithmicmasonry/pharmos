@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../global/logo";
+
 const Footer = () => {
   return (
     <section className="py-10 bg-gray-50 sm:pt-16 lg:pt-24">

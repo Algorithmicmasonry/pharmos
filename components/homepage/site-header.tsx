@@ -36,7 +36,7 @@ import { getInitials } from "@/lib/generateInitials";
 
 import Logo from "../global/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Session } from "better-auth";
+import { SessionUser } from "@/types/types";
 
 const features = [
   {
@@ -103,7 +103,14 @@ const features = [
   },
 ];
 
-export default function SiteHeader({ session }: { session: Session | null }) {
+export default function SiteHeader({
+  session,
+}: {
+  session: SessionUser | null;
+}) {
+  if(session) {
+    console.log("See session oh")
+  }
   const [open, setOpen] = React.useState(false);
   const [showFeatures, setShowFeatures] = React.useState(false);
 
@@ -115,11 +122,14 @@ export default function SiteHeader({ session }: { session: Session | null }) {
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                <NavigationMenuLink
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                  asChild
+                >
+                  <Link href="/" >
                     Home
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
@@ -179,47 +189,51 @@ export default function SiteHeader({ session }: { session: Session | null }) {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link href="#pricing" legacyBehavior passHref>
-                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                <NavigationMenuLink
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                  asChild
+                >
+                  <Link href="#pricing" >
+                    {" "}
                     Pricing
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link href="/how-it-works" legacyBehavior passHref>
-                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                    How it Works
+                
+                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50" asChild>
+                   <Link href="/how-it-works" > How it Works</Link>
                   </NavigationMenuLink>
-                </Link>
+               
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
 
-        {/* <Button asChild variant={"ghost"}>
+        {session ? (
+          <Button asChild variant={"ghost"}>
             <Link href="/dashboard">
               <Avatar>
                 <AvatarImage
-                  src={session?.user}
-                  alt={session?.User?.name ?? ""}
+                  src={session?.image ?? ""}
+                  alt={session?.name ?? ""}
                 />
-                <AvatarFallback>
-                  {getInitials(session?.user?.name)}
-                </AvatarFallback>
+                <AvatarFallback>{getInitials(session?.name)}</AvatarFallback>
               </Avatar>
               <span className="ml-3">Dashboard</span>
             </Link>
-          </Button> */}
-
-        <div className="hidden md:flex items-center space-x-4">
-          <Button asChild variant="ghost">
-            <Link href={"/login"}>Log in</Link>
           </Button>
-          <Button>
-            <Link href="/register">Signup</Link>
-          </Button>
-        </div>
+        ) : (
+          <div className="hidden md:flex items-center space-x-4">
+            <Button asChild variant="ghost">
+              <Link href={"/login"}>Log in</Link>
+            </Button>
+            <Button>
+              <Link href="/register">Signup</Link>
+            </Button>
+          </div>
+        )}
 
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild className="md:hidden">

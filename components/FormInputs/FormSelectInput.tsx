@@ -1,17 +1,19 @@
 "use client";
 import AddNewButton from "@/components/FormInputs/AddNewButton";
-import React, { useState } from "react";
 import Select from "react-tailwindcss-select";
 import { Option, Options } from "react-tailwindcss-select/dist/components/type";
+
 type FormSelectInputProps = {
   options: Options;
   label: string;
   option: Option;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setOption: any;
   href?: string;
   labelShown?: boolean;
   toolTipText?: string;
 };
+
 export default function FormSelectInput({
   options,
   label,

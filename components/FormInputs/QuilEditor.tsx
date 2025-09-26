@@ -2,6 +2,8 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function QuillEditor({
   label,
   className = "sm:col-span-2",
@@ -56,3 +58,4 @@ export default function QuillEditor({
     </div>
   );
 }
+/* eslint-disable @typescript-eslint/no-explicit-any */

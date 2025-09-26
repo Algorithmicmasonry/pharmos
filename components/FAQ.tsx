@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Link from "next/link";
 import SectionHeading from "./global/SectionHeading";
 
 export function FAQ() {
@@ -38,7 +37,7 @@ export function FAQ() {
               What happens after my free trial ends?
             </AccordionTrigger>
             <AccordionContent>
-              You'll need to subscribe to one of our pricing plans to continue
+              You&apos;ll need to subscribe to one of our pricing plans to continue
               using PharmOS. Your data remains safe, and you can pick up right
               where you left off.
             </AccordionContent>
@@ -91,7 +90,7 @@ export function FAQ() {
             </AccordionTrigger>
             <AccordionContent>
               Yes. PharmOS notifies you when stock is low via WhatsApp, SMS, and
-              email. You'll never run out of fast-moving or essential
+              email. You&apos;ll never run out of fast-moving or essential
               medications again.
             </AccordionContent>
           </AccordionItem>

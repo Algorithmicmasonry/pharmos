@@ -23,8 +23,8 @@ export default function ForgotAccountPage() {
         )}`
       );
     } else {
-      setIsLoading(false)
       router.push("/register");
+      setIsLoading(false);
     }
   };
 
